@@ -16,7 +16,9 @@ class ShowResult(object):
         self.json_file_path = self.args.json_file_path
         self.img_path_root = self.args.img_path_root
         self.show_img_path_root = self.args.show_img_path_root
+        # 构造id到category id到category name的映射
         self._category_id_convert_to_name()
+        # 构造image id到image name的映射
         self._image_id_convert_to_name()
         self._data_preprocess()
  
@@ -25,15 +27,19 @@ class ShowResult(object):
         self.orig_image_id_name_dict = self.orig_json["images"]
         for idx, image_id_name_dict in enumerate(self.orig_image_id_name_dict):
             self.image_id_name_dict[image_id_name_dict["id"]] = image_id_name_dict["file_name"]
+        print(f"dataset image 数目 {len(self.image_id_name_dict)}") # 4809
 
     def _category_id_convert_to_name(self):
         # 构建一个字典: {"category_id": category_name,...}
         orig_json_file = open(self.json_file_path, encoding='utf-8')
         self.orig_json = json.load(orig_json_file)
+        print(f"dataset info:{self.orig_json['info']}")
         self.category_id_name_dict = {}
         orig_category_id_name_dict = self.orig_json["categories"]
+        # 构建id和name的映射
         for idx, category_id_name_dict in enumerate(orig_category_id_name_dict):
             self.category_id_name_dict[category_id_name_dict["id"]] = category_id_name_dict["name"]
+        print(f"dataset category 类别数 {len(self.category_id_name_dict)}") # 1203
  
     def _data_preprocess(self):
         # 构建一个字典: {"img_id": [{bbox_attr_dict}, ...], ...}
@@ -45,11 +51,14 @@ class ShowResult(object):
             result_attr_dict = {"bbox": result_ann["bbox"],
                                 #"score": result_ann["score"],
                                 "category_id": result_ann["category_id"]}
+            # 可能一个图片对应多个标注框
             if result_ann["image_id"] not in self.img_id_bboxes_attr_dict.keys():
                 self.img_id_bboxes_attr_dict[result_ann["image_id"]] = []
                 self.img_id_bboxes_attr_dict[result_ann["image_id"]].append(result_attr_dict)
             else:
                 self.img_id_bboxes_attr_dict[result_ann["image_id"]].append(result_attr_dict)
+        print(f"dataset image 数目 {len(self.img_id_bboxes_attr_dict)}") # 4752,有些图片没有标注
+
  
     def mainprocess(self):
         # 对 self.img_id_bboxes_attr_dict进行循环操作:
@@ -62,6 +71,7 @@ class ShowResult(object):
             # 对每一个bbox标注
             img = Image.open(img_path, "r")  # img1.size返回的宽度和高度(像素表示)
             draw = ImageDraw.Draw(img)
+            print(img_path)
             # 提取所有bboxes信息
             for jdx, attr_dict in enumerate(attr_dict_list):
                 COLOR = COLOR_LIST[jdx % len(COLOR_LIST)]
@@ -83,10 +93,13 @@ class ShowResult(object):
                 #draw.text((x1, y1 - FONT_SIZE), new_score, font=IMAGE_FONT, fill=COLOR)
                 #draw.text((x1 + 25, y1 - FONT_SIZE), "|", font=IMAGE_FONT, fill=COLOR)
                 draw.text((x1 , y1), str(category_name), fill=COLOR)
+                print(f"category_name: {category_name}")
+
  
             # 存储图片
             save_path = os.path.join(self.show_img_path_root, self.image_id_name_dict[img_id])
             img.save(save_path)
+            exit(-1)
  
  
 def main():
