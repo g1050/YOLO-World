@@ -75,7 +75,7 @@ class ShowResult(object):
             # 提取所有bboxes信息
             for jdx, attr_dict in enumerate(attr_dict_list):
                 COLOR = COLOR_LIST[jdx % len(COLOR_LIST)]
-                # 对每一个bboxes标注信息
+                # 对每一个bboxes标注信息,x,y,w,h
                 bbox = attr_dict["bbox"]
                 #score = attr_dict["score"]
                 category_name = self.category_id_name_dict[attr_dict["category_id"]]
