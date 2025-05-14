@@ -15,13 +15,13 @@ from mmyolo.utils import is_metainfo_lower
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('config', help='train config file path')
-    parser.add_argument('--work-dir', help='the dir to save logs and models')
-    parser.add_argument(
+    parser.add_argument('--work-dir', help='the dir to save logs and models') # 保存日志和模型
+    parser.add_argument( # 自动混合精度训练
         '--amp',
         action='store_true',
         default=False,
         help='enable automatic-mixed-precision training')
-    parser.add_argument(
+    parser.add_argument( # 从检查点checkpoint恢复训练
         '--resume',
         nargs='?',
         type=str,
@@ -29,7 +29,7 @@ def parse_args():
         help='If specify checkpoint path, resume from it, while if not '
         'specify, try to auto resume from the latest checkpoint '
         'in the work directory.')
-    parser.add_argument(
+    parser.add_argument( #覆盖配置文件中的配置
         '--cfg-options',
         nargs='+',
         action=DictAction,
@@ -39,14 +39,14 @@ def parse_args():
         'It also allows nested list/tuple values, e.g. key="[(a,b),(c,d)]" '
         'Note that the quotation marks are necessary and that no white space '
         'is allowed.')
-    parser.add_argument(
+    parser.add_argument( #任务启动类型
         '--launcher',
         choices=['none', 'pytorch', 'slurm', 'mpi'],
         default='none',
         help='job launcher')
     parser.add_argument('--local_rank', type=int, default=0)
     args = parser.parse_args()
-    if 'LOCAL_RANK' not in os.environ:
+    if 'LOCAL_RANK' not in os.environ: # 分布式训练的本地进程编号
         os.environ['LOCAL_RANK'] = str(args.local_rank)
 
     return args

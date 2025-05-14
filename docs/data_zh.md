@@ -13,7 +13,8 @@
  
 ### 数据集目录
 
-We put all data into the `data` directory, such as:
+We put all data into the `data` directory, such as:  
+我们将所有数据放在 `data` 目录中，例如：
 
 ```bash
 ├── coco
@@ -35,9 +36,11 @@ We put all data into the `data` directory, such as:
 │   ├── train
 │   ├── val
 ```
-**NOTE**: We strongly suggest that you check the directories or paths in the dataset part of the config file, especially for the values `ann_file`, `data_root`, and `data_prefix`.
+**NOTE**: We strongly suggest that you check the directories or paths in the dataset part of the config file, especially for the values `ann_file`, `data_root`, and `data_prefix`.  
+**注意**: 我们强烈建议您检查配置文件数据集部分中的目录或路径，特别是 `ann_file`、`data_root` 和 `data_prefix` 这些值。  
 
-We provide the annotations of the pre-training data in the below table:
+We provide the annotations of the pre-training data in the below table:  
+我们在下面的表格中提供了预训练数据的标注：  
 
 | Data | images | Annotation File |
 | :--- | :------| :-------------- |
@@ -46,7 +49,8 @@ We provide the annotations of the pre-training data in the below table:
 | Flickr30k | [`Flickr30k`](https://shannon.cs.illinois.edu/DenotationGraph/) |[`final_flickr_separateGT_train.json`](https://huggingface.co/GLIPModel/GLIP/tree/main/mdetr_annotations/final_flickr_separateGT_train.json) |
 | LVIS-minival | [`COCO val2017`](https://cocodataset.org/) | [`lvis_v1_minival_inserted_image_name.json`](https://huggingface.co/GLIPModel/GLIP/blob/main/lvis_v1_minival_inserted_image_name.json) |
 
-**Acknowledgement:** We sincerely thank [GLIP](https://github.com/microsoft/GLIP) and [mdetr](https://github.com/ashkamath/mdetr) for providing the annotation files for pre-training.
+**Acknowledgement:** We sincerely thank [GLIP](https://github.com/microsoft/GLIP) and [mdetr](https://github.com/ashkamath/mdetr) for providing the annotation files for pre-training.  
+**致谢:** 我们衷心感谢 [GLIP](https://github.com/microsoft/GLIP) 和 [mdetr](https://github.com/ashkamath/mdetr) 提供预训练的标注文件。  
 
 
 ### 数据集类别
@@ -75,11 +79,13 @@ coco_train_dataset = dict(
 ```
 
 
-For training YOLO-World, we mainly adopt two kinds of dataset classs:
+For training YOLO-World, we mainly adopt two kinds of dataset classs:  
+对于训练 YOLO-World，我们主要采用两种数据集类：  
 
 #### 1. `MultiModalDataset`
 
 `MultiModalDataset` is a simple wrapper for pre-defined Dataset Class, such as `Objects365` or `COCO`, which add the texts (category texts) into the dataset instance for formatting input texts.  
+`MultiModalDataset` 是一个预定义数据集类的简单包装器，比如 `Objects365` 或 `COCO`，它将文本（类别文本）添加到数据集实例中以格式化输入文本。  
 
 **Text JSON**
 
@@ -98,7 +104,8 @@ We have provided the text json for [`LVIS`](./../data/texts/lvis_v1_class_texts.
 
 #### 2. `YOLOv5MixedGroundingDataset`
 
-The `YOLOv5MixedGroundingDataset` extends the `COCO` dataset by supporting loading texts/captions from the json file. It's desgined for `MixedGrounding` or `Flickr30K` with text tokens for each object.
+The `YOLOv5MixedGroundingDataset` extends the `COCO` dataset by supporting loading texts/captions from the json file. It's desgined for `MixedGrounding` or `Flickr30K` with text tokens for each object.  
+`YOLOv5MixedGroundingDataset` 通过支持从 json 文件加载文本/描述来扩展 `COCO` 数据集。它专为 `MixedGrounding` 或 `Flickr30K` 设计，每个对象都带有文本标记。  
 
 
 
